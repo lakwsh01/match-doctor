@@ -1,0 +1,621 @@
+{
+  "schema_version": "2.0",
+  "sample": true,
+  "sample_note": "Shape sample for an agent that watches the match video. Replace every array with each event observed. List events only. Do not add averages, rates, totals, or coaching notes.",
+  "conventions": {
+    "time_sec": "Seconds from the start of the video.",
+    "speed_mps": "Meters per second.",
+    "reaction_sec": "contact_sec minus stimulus_sec. stimulus is opponent_contact or ball_bounce.",
+    "court": {
+      "unit": "meter",
+      "width_m": 6.096,
+      "length_m": 13.4112,
+      "net_y_m": 6.7056,
+      "kitchen_depth_m": 2.1336,
+      "x_m": "0 at the left sideline in the video, 6.096 at the right sideline.",
+      "y_m": "0 at the far baseline, 13.4112 at the near baseline.",
+      "zones": [
+        "far_kitchen",
+        "far_transition",
+        "far_baseline",
+        "near_kitchen",
+        "near_transition",
+        "near_baseline",
+        "out_left",
+        "out_right",
+        "out_far",
+        "out_near",
+        "net"
+      ]
+    },
+    "rally_number": "1-based order of the rally in the match.",
+    "shot_count": "Number of player contacts in that rally.",
+    "shot_id": "Joins one contact across gesture, ball speed, reaction, attack, error, and the bounce it produced. Null when the player missed the ball and made no contact.",
+    "error_types": [
+      "into_net",
+      "out_wide",
+      "out_long",
+      "serve_fault",
+      "foot_fault",
+      "kitchen_violation",
+      "missed_return"
+    ],
+    "attack_types": [
+      "drive",
+      "speedup",
+      "overhead",
+      "erne",
+      "around_the_post",
+      "lob",
+      "putaway"
+    ],
+    "attack_result": {
+      "successful": "The attack won the point, or the opponent missed the next ball.",
+      "unsuccessful": "The attack stayed in the rally, or the attack itself missed."
+    },
+    "gestures": [
+      "serve",
+      "return",
+      "forehand_dink",
+      "backhand_dink",
+      "forehand_drive",
+      "backhand_drive",
+      "forehand_drop",
+      "backhand_drop",
+      "forehand_volley",
+      "backhand_volley",
+      "forehand_roll",
+      "backhand_roll",
+      "overhead",
+      "lob",
+      "speedup",
+      "reset",
+      "erne",
+      "around_the_post"
+    ],
+    "error_cause": ["unforced", "forced"]
+  },
+  "match": {
+    "title": "Men's Doubles Gold, 2026 US Open Pickleball",
+    "format": "doubles",
+    "video": {
+      "path": "Men's Doubles GOLD at 2026 US OPEN PICKLEBALL_ Munro_Livornese vs. Deheart_Koszuta.mp4"
+    },
+    "teams": [
+      {
+        "team_id": "1",
+        "end": "far",
+        "player_ids": ["1", "2"]
+      },
+      {
+        "team_id": "2",
+        "end": "near",
+        "player_ids": ["3", "4"]
+      }
+    ],
+    "players": [
+      { "player_id": "1", "team_id": "1" },
+      { "player_id": "2", "team_id": "1" },
+      { "player_id": "3", "team_id": "2" },
+      { "player_id": "4", "team_id": "2" }
+    ],
+    "points": [
+      {
+        "point_number": 1,
+        "start_sec": 12.4,
+        "end_sec": 14.6,
+        "server_player_id": "1",
+        "winner_player_id": "3",
+        "winner_team_id": "2"
+      },
+      {
+        "point_number": 2,
+        "start_sec": 25.0,
+        "end_sec": 30.5,
+        "server_player_id": "3",
+        "winner_player_id": "1",
+        "winner_team_id": "1"
+      }
+    ],
+    "rallies": [
+      {
+        "rally_number": 1,
+        "point_number": 1,
+        "scoring": true,
+        "start_sec": 12.4,
+        "end_sec": 14.6,
+        "duration_sec": 2.2,
+        "shot_count": 3
+      },
+      {
+        "rally_number": 2,
+        "point_number": null,
+        "scoring": false,
+        "start_sec": 20.8,
+        "end_sec": 22.0,
+        "duration_sec": 1.2,
+        "shot_count": 1
+      },
+      {
+        "rally_number": 3,
+        "point_number": 2,
+        "scoring": true,
+        "start_sec": 25.0,
+        "end_sec": 30.5,
+        "duration_sec": 5.5,
+        "shot_count": 4
+      }
+    ],
+    "ball_ground_hits": [
+      {
+        "shot_id": "r1s1",
+        "hitter_player_id": "1",
+        "time_sec": 13.05,
+        "point_number": 1,
+        "rally_number": 1,
+        "x_m": 4.2,
+        "y_m": 11.8,
+        "zone": "near_baseline",
+        "in_bounds": true
+      },
+      {
+        "shot_id": "r1s2",
+        "hitter_player_id": "3",
+        "time_sec": 13.9,
+        "point_number": 1,
+        "rally_number": 1,
+        "x_m": 2.1,
+        "y_m": 5.4,
+        "zone": "far_kitchen",
+        "in_bounds": true
+      },
+      {
+        "shot_id": "r2s1",
+        "hitter_player_id": "2",
+        "time_sec": 21.55,
+        "point_number": null,
+        "rally_number": 2,
+        "x_m": 4.5,
+        "y_m": 11.2,
+        "zone": "near_baseline",
+        "in_bounds": true
+      },
+      {
+        "shot_id": "r3s1",
+        "hitter_player_id": "3",
+        "time_sec": 26.2,
+        "point_number": 2,
+        "rally_number": 3,
+        "x_m": 1.6,
+        "y_m": 2.2,
+        "zone": "far_baseline",
+        "in_bounds": true
+      },
+      {
+        "shot_id": "r3s2",
+        "hitter_player_id": "1",
+        "time_sec": 27.2,
+        "point_number": 2,
+        "rally_number": 3,
+        "x_m": 3.6,
+        "y_m": 8.1,
+        "zone": "near_kitchen",
+        "in_bounds": true
+      },
+      {
+        "shot_id": "r3s4",
+        "hitter_player_id": "1",
+        "time_sec": 29.9,
+        "point_number": 2,
+        "rally_number": 3,
+        "x_m": 3.4,
+        "y_m": 7.6,
+        "zone": "near_kitchen",
+        "in_bounds": true
+      }
+    ]
+  },
+  "players": {
+    "1": {
+      "errors": {
+        "into_net": [
+          {
+            "shot_id": "r1s3",
+            "time_sec": 14.2,
+            "point_number": 1,
+            "rally_number": 1,
+            "cause": "unforced"
+          }
+        ],
+        "out_wide": [],
+        "out_long": [],
+        "serve_fault": [],
+        "foot_fault": [],
+        "kitchen_violation": [],
+        "missed_return": []
+      },
+      "attacks": {
+        "successful": [
+          {
+            "shot_id": "r3s4",
+            "time_sec": 29.5,
+            "point_number": 2,
+            "rally_number": 3,
+            "attack_type": "overhead"
+          }
+        ],
+        "unsuccessful": [
+          {
+            "shot_id": "r1s3",
+            "time_sec": 14.2,
+            "point_number": 1,
+            "rally_number": 1,
+            "attack_type": "speedup"
+          }
+        ]
+      },
+      "movement_speeds": [
+        {
+          "start_sec": 13.9,
+          "end_sec": 14.2,
+          "speed_mps": 2.8,
+          "point_number": 1,
+          "rally_number": 1,
+          "from": { "x_m": 2.4, "y_m": 1.6 },
+          "to": { "x_m": 2.2, "y_m": 3.4 }
+        },
+        {
+          "start_sec": 28.9,
+          "end_sec": 29.5,
+          "speed_mps": 1.9,
+          "point_number": 2,
+          "rally_number": 3,
+          "from": { "x_m": 1.8, "y_m": 1.2 },
+          "to": { "x_m": 3.1, "y_m": 2.0 }
+        }
+      ],
+      "ball_speeds": [
+        {
+          "shot_id": "r1s1",
+          "time_sec": 12.5,
+          "speed_mps": 9.8,
+          "point_number": 1,
+          "rally_number": 1
+        },
+        {
+          "shot_id": "r1s3",
+          "time_sec": 14.2,
+          "speed_mps": 21.0,
+          "point_number": 1,
+          "rally_number": 1
+        },
+        {
+          "shot_id": "r3s2",
+          "time_sec": 26.7,
+          "speed_mps": 11.4,
+          "point_number": 2,
+          "rally_number": 3
+        },
+        {
+          "shot_id": "r3s4",
+          "time_sec": 29.5,
+          "speed_mps": 24.6,
+          "point_number": 2,
+          "rally_number": 3
+        }
+      ],
+      "reaction_times": [
+        {
+          "shot_id": "r1s3",
+          "stimulus": "ball_bounce",
+          "stimulus_sec": 13.9,
+          "contact_sec": 14.2,
+          "reaction_sec": 0.3,
+          "point_number": 1,
+          "rally_number": 1
+        },
+        {
+          "shot_id": "r3s2",
+          "stimulus": "ball_bounce",
+          "stimulus_sec": 26.2,
+          "contact_sec": 26.7,
+          "reaction_sec": 0.5,
+          "point_number": 2,
+          "rally_number": 3
+        },
+        {
+          "shot_id": "r3s4",
+          "stimulus": "opponent_contact",
+          "stimulus_sec": 28.9,
+          "contact_sec": 29.5,
+          "reaction_sec": 0.6,
+          "point_number": 2,
+          "rally_number": 3
+        }
+      ],
+      "hitting_gestures": [
+        {
+          "shot_id": "r1s1",
+          "time_sec": 12.5,
+          "gesture": "serve",
+          "point_number": 1,
+          "rally_number": 1
+        },
+        {
+          "shot_id": "r1s3",
+          "time_sec": 14.2,
+          "gesture": "speedup",
+          "point_number": 1,
+          "rally_number": 1
+        },
+        {
+          "shot_id": "r3s2",
+          "time_sec": 26.7,
+          "gesture": "backhand_dink",
+          "point_number": 2,
+          "rally_number": 3
+        },
+        {
+          "shot_id": "r3s4",
+          "time_sec": 29.5,
+          "gesture": "overhead",
+          "point_number": 2,
+          "rally_number": 3
+        }
+      ],
+      "ball_ground_hits": [
+        {
+          "shot_id": "r1s1",
+          "time_sec": 13.05,
+          "point_number": 1,
+          "rally_number": 1,
+          "x_m": 4.2,
+          "y_m": 11.8,
+          "zone": "near_baseline",
+          "in_bounds": true
+        },
+        {
+          "shot_id": "r3s2",
+          "time_sec": 27.2,
+          "point_number": 2,
+          "rally_number": 3,
+          "x_m": 3.6,
+          "y_m": 8.1,
+          "zone": "near_kitchen",
+          "in_bounds": true
+        },
+        {
+          "shot_id": "r3s4",
+          "time_sec": 29.9,
+          "point_number": 2,
+          "rally_number": 3,
+          "x_m": 3.4,
+          "y_m": 7.6,
+          "zone": "near_kitchen",
+          "in_bounds": true
+        }
+      ]
+    },
+    "2": {
+      "errors": {
+        "into_net": [],
+        "out_wide": [],
+        "out_long": [],
+        "serve_fault": [],
+        "foot_fault": [],
+        "kitchen_violation": [],
+        "missed_return": []
+      },
+      "attacks": {
+        "successful": [],
+        "unsuccessful": []
+      },
+      "movement_speeds": [
+        {
+          "start_sec": 20.7,
+          "end_sec": 21.1,
+          "speed_mps": 1.1,
+          "point_number": null,
+          "rally_number": 2,
+          "from": { "x_m": 4.1, "y_m": 1.1 },
+          "to": { "x_m": 4.4, "y_m": 1.5 }
+        }
+      ],
+      "ball_speeds": [
+        {
+          "shot_id": "r2s1",
+          "time_sec": 21.1,
+          "speed_mps": 8.5,
+          "point_number": null,
+          "rally_number": 2
+        }
+      ],
+      "reaction_times": [],
+      "hitting_gestures": [
+        {
+          "shot_id": "r2s1",
+          "time_sec": 21.1,
+          "gesture": "serve",
+          "point_number": null,
+          "rally_number": 2
+        }
+      ],
+      "ball_ground_hits": [
+        {
+          "shot_id": "r2s1",
+          "time_sec": 21.55,
+          "point_number": null,
+          "rally_number": 2,
+          "x_m": 4.5,
+          "y_m": 11.2,
+          "zone": "near_baseline",
+          "in_bounds": true
+        }
+      ]
+    },
+    "3": {
+      "errors": {
+        "into_net": [],
+        "out_wide": [],
+        "out_long": [],
+        "serve_fault": [],
+        "foot_fault": [],
+        "kitchen_violation": [],
+        "missed_return": [
+          {
+            "shot_id": null,
+            "time_sec": 30.3,
+            "point_number": 2,
+            "rally_number": 3,
+            "cause": "forced"
+          }
+        ]
+      },
+      "attacks": {
+        "successful": [],
+        "unsuccessful": []
+      },
+      "movement_speeds": [
+        {
+          "start_sec": 13.05,
+          "end_sec": 13.5,
+          "speed_mps": 2.1,
+          "point_number": 1,
+          "rally_number": 1,
+          "from": { "x_m": 3.2, "y_m": 12.4 },
+          "to": { "x_m": 4.0, "y_m": 11.6 }
+        },
+        {
+          "start_sec": 29.9,
+          "end_sec": 30.3,
+          "speed_mps": 3.4,
+          "point_number": 2,
+          "rally_number": 3,
+          "from": { "x_m": 2.2, "y_m": 11.4 },
+          "to": { "x_m": 3.2, "y_m": 9.8 }
+        }
+      ],
+      "ball_speeds": [
+        {
+          "shot_id": "r1s2",
+          "time_sec": 13.5,
+          "speed_mps": 14.1,
+          "point_number": 1,
+          "rally_number": 1
+        },
+        {
+          "shot_id": "r3s1",
+          "time_sec": 25.1,
+          "speed_mps": 10.1,
+          "point_number": 2,
+          "rally_number": 3
+        }
+      ],
+      "reaction_times": [
+        {
+          "shot_id": "r1s2",
+          "stimulus": "ball_bounce",
+          "stimulus_sec": 13.05,
+          "contact_sec": 13.5,
+          "reaction_sec": 0.45,
+          "point_number": 1,
+          "rally_number": 1
+        }
+      ],
+      "hitting_gestures": [
+        {
+          "shot_id": "r1s2",
+          "time_sec": 13.5,
+          "gesture": "return",
+          "point_number": 1,
+          "rally_number": 1
+        },
+        {
+          "shot_id": "r3s1",
+          "time_sec": 25.1,
+          "gesture": "serve",
+          "point_number": 2,
+          "rally_number": 3
+        }
+      ],
+      "ball_ground_hits": [
+        {
+          "shot_id": "r1s2",
+          "time_sec": 13.9,
+          "point_number": 1,
+          "rally_number": 1,
+          "x_m": 2.1,
+          "y_m": 5.4,
+          "zone": "far_kitchen",
+          "in_bounds": true
+        },
+        {
+          "shot_id": "r3s1",
+          "time_sec": 26.2,
+          "point_number": 2,
+          "rally_number": 3,
+          "x_m": 1.6,
+          "y_m": 2.2,
+          "zone": "far_baseline",
+          "in_bounds": true
+        }
+      ]
+    },
+    "4": {
+      "errors": {
+        "into_net": [],
+        "out_wide": [],
+        "out_long": [],
+        "serve_fault": [],
+        "foot_fault": [],
+        "kitchen_violation": [],
+        "missed_return": []
+      },
+      "attacks": {
+        "successful": [],
+        "unsuccessful": []
+      },
+      "movement_speeds": [
+        {
+          "start_sec": 27.2,
+          "end_sec": 28.9,
+          "speed_mps": 1.6,
+          "point_number": 2,
+          "rally_number": 3,
+          "from": { "x_m": 4.6, "y_m": 12.2 },
+          "to": { "x_m": 3.8, "y_m": 10.9 }
+        }
+      ],
+      "ball_speeds": [
+        {
+          "shot_id": "r3s3",
+          "time_sec": 28.9,
+          "speed_mps": 12.2,
+          "point_number": 2,
+          "rally_number": 3
+        }
+      ],
+      "reaction_times": [
+        {
+          "shot_id": "r3s3",
+          "stimulus": "ball_bounce",
+          "stimulus_sec": 27.2,
+          "contact_sec": 28.9,
+          "reaction_sec": 1.7,
+          "point_number": 2,
+          "rally_number": 3
+        }
+      ],
+      "hitting_gestures": [
+        {
+          "shot_id": "r3s3",
+          "time_sec": 28.9,
+          "gesture": "lob",
+          "point_number": 2,
+          "rally_number": 3
+        }
+      ],
+      "ball_ground_hits": []
+    }
+  }
+}
