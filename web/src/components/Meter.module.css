@@ -1,0 +1,13 @@
+.track {
+  display: block;
+  height: 6px;
+  border-radius: var(--radius-s);
+  background: var(--hover);
+  overflow: hidden;
+}
+
+.fill {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+}
