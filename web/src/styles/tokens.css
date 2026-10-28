@@ -1,0 +1,46 @@
+:root {
+  /* Surface and text */
+  --paper: #f3f5f7;
+  --ink: #11243a;
+  --muted: #5e6e7f;
+  --rule: #d5dce3;
+  --hover: #e9edf1;
+  --select: #dde5ed;
+  --edge: rgb(17 36 58 / 0.18);
+
+  /* Court */
+  --court: #2e64a0;
+  --kitchen: #285a92;
+  --surround: #3c7a5e;
+  --line: #ffffff;
+
+  /* Teams: ball yellow and rose read on the blue court and on paper */
+  --team-1: #f4c430;
+  --team-2: #e0527a;
+  --neutral: #a3afbb;
+  --focus: #2e64a0;
+
+  /* Type: one variable family, width axis carries the scoreboard */
+  --font: 'Archivo', system-ui, sans-serif;
+  --wdth-condensed: 62;
+  --wdth-narrow: 82;
+  --step--1: 0.8125rem;
+  --step-0: 1rem;
+  --step-1: 1.25rem;
+  --step-2: 1.5625rem;
+  --step-3: 2.25rem;
+  --step-score: 6rem;
+
+  /* Space and shape */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 1rem;
+  --space-4: 1.5rem;
+  --space-5: 2.5rem;
+  --space-6: 4rem;
+  --radius-s: 3px;
+  --radius-m: 8px;
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --page: 1240px;
+  --measure: 68ch;
+}

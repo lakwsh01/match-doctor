@@ -1,0 +1,70 @@
+.court {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: var(--radius-m);
+}
+
+.surround {
+  fill: var(--surround);
+}
+
+.surface {
+  fill: var(--court);
+}
+
+.kitchen {
+  fill: var(--kitchen);
+}
+
+.lines {
+  stroke: var(--line);
+  stroke-width: 0.05;
+}
+
+.net {
+  stroke: var(--line);
+  stroke-width: 0.09;
+  stroke-linecap: round;
+}
+
+.trace {
+  fill: none;
+  stroke: var(--line);
+  stroke-width: 0.03;
+  stroke-linejoin: round;
+  opacity: 0.75;
+  stroke-dasharray: 1;
+  animation: draw 1.2s var(--ease-out) both;
+}
+
+.in {
+  fill: currentColor;
+  stroke: var(--ink);
+  stroke-width: 0.02;
+}
+
+.out {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 0.05;
+}
+
+.enter {
+  animation: appear 0.25s var(--ease-out) both;
+}
+
+@keyframes draw {
+  from {
+    stroke-dashoffset: 1;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes appear {
+  from {
+    opacity: 0;
+  }
+}

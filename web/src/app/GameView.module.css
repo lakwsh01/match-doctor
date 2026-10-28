@@ -1,0 +1,29 @@
+.title {
+  margin-top: var(--space-5);
+  font-size: var(--step-3);
+  font-weight: 800;
+  font-variation-settings: 'wdth' var(--wdth-narrow);
+  line-height: 1.05;
+  letter-spacing: -0.015em;
+  text-wrap: balance;
+}
+
+.hero {
+  display: grid;
+  grid-template-columns: minmax(240px, 1fr) minmax(0, 2.6fr);
+  gap: var(--space-5);
+  align-items: start;
+  margin-top: var(--space-5);
+}
+
+.play {
+  display: grid;
+  gap: var(--space-4);
+  min-width: 0;
+}
+
+@media (max-width: 900px) {
+  .hero {
+    grid-template-columns: 1fr;
+  }
+}
