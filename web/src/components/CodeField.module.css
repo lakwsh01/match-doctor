@@ -1,0 +1,98 @@
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.label {
+  font-size: var(--step--1);
+  font-weight: 700;
+  color: var(--ink);
+}
+
+/* The input lies invisibly over the cells, so a tap anywhere on them lands in it. */
+.cells {
+  position: relative;
+  display: flex;
+  gap: var(--space-2);
+}
+
+/* Digits in the scoreboard's condensed black numerals, each on a bare line like the other fields. */
+.cell {
+  display: grid;
+  flex: 1;
+  place-items: center;
+  height: 3.5rem;
+  border-bottom: 2px solid var(--edge);
+  font-size: var(--step-3);
+  font-weight: 900;
+  font-variation-settings: 'wdth' var(--wdth-condensed);
+  font-variant-numeric: tabular-nums;
+  color: var(--ink);
+  transition: border-color 0.15s, opacity 0.15s;
+}
+
+/* A wider gap after the middle digit, so the code reads as two halves. */
+.cell[data-split] {
+  margin-right: var(--space-2);
+}
+
+/* The cell the next digit goes into, shown only while the field has focus. */
+.cells:focus-within .cell[data-next] {
+  border-bottom-color: var(--focus);
+}
+
+.cells:focus-within .cell[data-next]:empty::after {
+  content: '';
+  width: 2px;
+  height: 1.75rem;
+  background: var(--focus);
+  animation: blink 1s steps(1) infinite;
+}
+
+.cells[data-invalid] .cell {
+  border-bottom-color: var(--error);
+}
+
+.cells[data-busy] .cell {
+  opacity: 0.6;
+}
+
+.input {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  padding: 0;
+  background: transparent;
+  /* 16px keeps iOS from zooming in on focus. */
+  font-size: var(--step-0);
+  color: transparent;
+  caret-color: transparent;
+}
+
+.input:focus-visible {
+  outline: none;
+}
+
+.input::selection {
+  background: transparent;
+}
+
+.error {
+  font-size: var(--step--1);
+  color: var(--error);
+}
+
+@keyframes blink {
+  50% {
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cells:focus-within .cell[data-next]:empty::after {
+    animation: none;
+  }
+}

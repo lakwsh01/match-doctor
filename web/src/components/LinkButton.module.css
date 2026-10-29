@@ -1,0 +1,9 @@
+.link {
+  border: 0;
+  padding: 0;
+  background: none;
+  font-size: inherit;
+  color: var(--ink);
+  text-decoration: underline;
+  cursor: pointer;
+}

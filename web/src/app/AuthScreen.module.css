@@ -1,0 +1,28 @@
+.screen {
+  display: grid;
+  min-height: 100dvh;
+}
+
+.side {
+  display: flex;
+  flex-direction: column;
+  min-height: 100dvh;
+  padding: var(--space-5) var(--space-4);
+}
+
+.top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+}
+
+@media (min-width: 900px) {
+  .screen {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .side {
+    padding-inline: var(--space-6);
+  }
+}

@@ -7,9 +7,12 @@
     "dev": "vite",
     "build": "tsc --noEmit && vite build",
     "preview": "vite preview",
-    "reports": "node scripts/build-reports.ts"
+    "reports": "node scripts/build-reports.ts",
+    "demo": "node scripts/generate-demo.ts"
   },
   "dependencies": {
+    "@radix-ui/react-popover": "^1.3.1",
+    "@supabase/supabase-js": "^2.118.0",
     "react": "^19.3.1",
     "react-dom": "^19.3.1"
   },
