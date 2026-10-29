@@ -1,24 +1,56 @@
 :root {
+  color-scheme: light;
+
+  /* Theme colors: neon fills, never text or thin lines on light */
+  --green: #39ff14;
+  --yellow: #e1ff00;
+  --orange: #ff9d23;
+  /* The orange that passes on light, for text and borders */
+  --orange-deep: #9c4a00;
+
+  /* Neutrals: green-tinted chalk for the page, stone and sage for muted text and marks */
+  --white: #ffffff;
+  --chalk: #f6f8f3;
+  --chalk-1: #eef2e8;
+  --chalk-2: #d9e0d2;
+  --stone: #55634f;
+  --sage: #9aa894;
+
+  /* Night: text, the court stage, and text on neon fills */
+  --night: #0b0f0a;
+
+  /* Wash */
+  --green-wash: rgb(57 255 20 / 0.16);
+
   /* Surface and text */
-  --paper: #f3f5f7;
-  --ink: #11243a;
-  --muted: #5e6e7f;
-  --rule: #d5dce3;
-  --hover: #e9edf1;
-  --select: #dde5ed;
-  --edge: rgb(17 36 58 / 0.18);
+  --paper: var(--chalk);
+  --surface: var(--white);
+  --hover: var(--chalk-1);
+  --select: var(--green-wash);
+  --rule: var(--chalk-2);
+  --edge: rgb(11 15 10 / 0.5);
+  --ink: var(--night);
+  --muted: var(--stone);
+  --scrim: rgb(11 15 10 / 0.8);
 
-  /* Court */
-  --court: #2e64a0;
-  --kitchen: #285a92;
-  --surround: #3c7a5e;
-  --line: #ffffff;
+  /* Action and state */
+  --primary: var(--green);
+  --on-primary: var(--night);
+  --focus: var(--night);
+  --highlight: var(--yellow);
+  --error: var(--orange-deep);
 
-  /* Teams: ball yellow and rose read on the blue court and on paper */
-  --team-1: #f4c430;
-  --team-2: #e0527a;
-  --neutral: #a3afbb;
-  --focus: #2e64a0;
+  /* Court: a dark stage inside the light page, so the neon marks keep their contrast */
+  --court: #182016;
+  --kitchen: #222b20;
+  --surround: var(--night);
+  --line: var(--white);
+  --ball: var(--yellow);
+
+  /* Teams */
+  --team-1: var(--green);
+  --team-2: var(--orange);
+  --neutral: var(--sage);
 
   /* Type: one variable family, width axis carries the scoreboard */
   --font: 'Archivo', system-ui, sans-serif;
@@ -38,9 +70,11 @@
   --space-4: 1.5rem;
   --space-5: 2.5rem;
   --space-6: 4rem;
+  --control: 2.5rem;
   --radius-s: 3px;
   --radius-m: 8px;
   --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
   --page: 1240px;
+  --column: 26rem;
   --measure: 68ch;
 }

@@ -1,44 +1,25 @@
-import { Suspense, useState, useTransition } from 'react';
-import { SegmentedControl } from '../components/SegmentedControl';
-import { reportEntries } from '../lib/report/load';
-import type { Id } from '../lib/report/types';
-import { GameView } from './GameView';
-import styles from './App.module.css';
+import { useMemo } from 'react';
+import { I18nContext } from '../components/useT';
+import { signOut } from '../lib/auth/actions';
+import { createTranslator } from '../lib/i18n/translate';
+import { AuthScreen } from './AuthScreen';
+import { Reports } from './Reports';
+import { useLocale } from './useLocale';
+import { useSession } from './useSession';
 
 export function App() {
-  const [gameId, setGameId] = useState(reportEntries[0]?.id);
-  const [rally, setRally] = useState<number | null>(null);
-  const [player, setPlayer] = useState<Id | null>(null);
-  const [loading, startTransition] = useTransition();
+  const session = useSession();
+  const [locale, setLocale] = useLocale();
+  const translator = useMemo(() => createTranslator(locale), [locale]);
 
-  const pickGame = (id: string) =>
-    startTransition(() => {
-      setGameId(id);
-      setRally(null);
-    });
+  // Render nothing until the stored session is restored, so a signed-in person never sees the form flash.
+  // A verified email without a name has not finished creating its account.
+  const screen =
+    session === undefined ? null : session === null || session.name === null ? (
+      <AuthScreen newAccountEmail={session?.email ?? null} locale={locale} onLocale={setLocale} />
+    ) : (
+      <Reports email={session.email} locale={locale} onLocale={setLocale} onSignOut={signOut} />
+    );
 
-  return (
-    <div className={styles.page} aria-busy={loading}>
-      <header className={styles.header}>
-        <p className={styles.brand}>Match Doctor</p>
-        {gameId && (
-          <SegmentedControl
-            label="Game"
-            options={reportEntries.map((e) => ({ value: e.id, label: e.label }))}
-            value={gameId}
-            onChange={pickGame}
-          />
-        )}
-      </header>
-      {gameId ? (
-        <Suspense fallback={<p className={styles.status}>Loading report…</p>}>
-          <div className={styles.body} data-loading={loading}>
-            <GameView gameId={gameId} rally={rally} player={player} onRally={setRally} onPlayer={setPlayer} />
-          </div>
-        </Suspense>
-      ) : (
-        <p className={styles.status}>No reports found. Add a report JSON file to docs/demo/raw and reload.</p>
-      )}
-    </div>
-  );
+  return <I18nContext value={translator}>{screen}</I18nContext>;
 }

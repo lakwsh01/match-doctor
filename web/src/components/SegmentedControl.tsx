@@ -5,11 +5,12 @@ type SegmentedControlProps = {
   options: { value: string; label: string }[];
   value: string;
   onChange: (value: string) => void;
+  orientation?: 'horizontal' | 'vertical';
 };
 
-export function SegmentedControl({ label, options, value, onChange }: SegmentedControlProps) {
+export function SegmentedControl({ label, options, value, onChange, orientation = 'horizontal' }: SegmentedControlProps) {
   return (
-    <div className={styles.group} role="group" aria-label={label}>
+    <div className={styles.group} role="group" aria-label={label} data-orientation={orientation}>
       {options.map((option) => (
         <button
           key={option.value}

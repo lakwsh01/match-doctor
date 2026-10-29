@@ -25,6 +25,9 @@
 *.mxf
 *.qt
 
+# Synthetic raw logs from `npm run demo` (regenerate; too large to commit)
+docs/demo/generated/
+
 # Local-only files
 .DS_Store
 .claude/

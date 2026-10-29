@@ -1,4 +1,5 @@
-// Mirrors report schema 2.0 (see README.md). Ids are strings, as in the JSON.
+// Mirrors raw schema 2.0 with the v2 extensions (README.md, docs/demo/raw/v2/v2_schema_notes.md).
+// Ids are strings, as in the JSON.
 export type Id = string;
 
 export type ErrorType =
@@ -59,7 +60,8 @@ export type CourtSpec = {
 type InRally = { point_number: number | null; rally_number: number };
 type Spot = { x_m: number; y_m: number };
 
-export type Bounce = InRally & Spot & { shot_id: string | null; time_sec: number; zone: Zone; in_bounds: boolean };
+export type Bounce = InRally &
+  Spot & { shot_id: string | null; time_sec: number; zone: Zone; in_bounds: boolean; line_call_confidence: number };
 export type MatchBounce = Bounce & { hitter_player_id: Id };
 export type PlayError = InRally & { shot_id: string | null; time_sec: number; cause: 'unforced' | 'forced' };
 export type Attack = InRally & { shot_id: string | null; time_sec: number; attack_type: AttackType };
@@ -72,7 +74,8 @@ export type Reaction = InRally & {
   contact_sec: number;
   reaction_sec: number;
 };
-export type Stroke = InRally & { shot_id: string; time_sec: number; gesture: Gesture };
+export type Stroke = InRally & Spot & { shot_id: string; time_sec: number; gesture: Gesture; height_above_net_m: number };
+export type TrackSample = Spot & { time_sec: number };
 
 export type Point = {
   point_number: number;
@@ -93,6 +96,29 @@ export type Rally = {
   shot_count: number;
 };
 
+export type Serve = {
+  rally_number: number;
+  point_number: number | null;
+  server_player_id: Id;
+  server_number: 1 | 2;
+  score_call: string;
+  serving_side: 'deuce' | 'ad';
+  time_sec: number;
+};
+
+export type RallyOutcome = {
+  rally_number: number;
+  point_number: number | null;
+  outcome: 'point_winner' | 'error';
+  time_sec: number;
+  winner_team_id: Id;
+  winner_player_id?: Id;
+  error_player_id?: Id;
+  error_type?: ErrorType;
+  cause?: 'unforced' | 'forced';
+  side_out?: boolean;
+};
+
 export type PlayerEvents = {
   errors: Record<ErrorType, PlayError[]>;
   attacks: { successful: Attack[]; unsuccessful: Attack[] };
@@ -101,12 +127,25 @@ export type PlayerEvents = {
   reaction_times: Reaction[];
   hitting_gestures: Stroke[];
   ball_ground_hits: Bounce[];
+  position_track: TrackSample[];
 };
 
 export type Report = {
   schema_version: '2.0';
   sample: boolean;
   sample_note: string;
+  analysis: {
+    source_fps: number;
+    contact_sampling: string;
+    source_path: string;
+    video_resolution: string;
+    track_hz: number;
+    analysis_proxy_resolution: string;
+    incomplete: boolean;
+    sparse_rally_count: number;
+    detector: string;
+    notes: string;
+  };
   conventions: {
     time_sec: string;
     speed_mps: string;
@@ -120,6 +159,12 @@ export type Report = {
     attack_result: { successful: string; unsuccessful: string };
     gestures: Gesture[];
     error_cause: ('unforced' | 'forced')[];
+    serving_side: string;
+    score_call: string;
+    height_above_net_m: string;
+    line_call_confidence: string;
+    position_track: string;
+    contact_sampling: string;
   };
   match: {
     title: string;
@@ -129,6 +174,8 @@ export type Report = {
     players: { player_id: Id; team_id: Id }[];
     points: Point[];
     rallies: Rally[];
+    serves: Serve[];
+    rally_outcomes: RallyOutcome[];
     ball_ground_hits: MatchBounce[];
   };
   players: Record<Id, PlayerEvents>;

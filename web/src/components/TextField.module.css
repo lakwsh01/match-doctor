@@ -1,0 +1,47 @@
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.label {
+  font-size: var(--step--1);
+  font-weight: 700;
+  color: var(--ink);
+}
+
+/* A bare line, no box: the value sits flush with its label. */
+.input {
+  border: 0;
+  border-bottom: 1px solid var(--edge);
+  border-radius: 0;
+  padding: 0 0 var(--space-2);
+  background: transparent;
+  font: inherit;
+  font-size: var(--step-1);
+  color: var(--ink);
+  caret-color: var(--focus);
+  transition: border-color 0.15s;
+}
+
+/* The line thickens instead of an outline box; padding gives back the extra pixel so nothing moves. */
+.input:focus-visible {
+  outline: none;
+  border-bottom: 2px solid var(--focus);
+  padding-bottom: calc(var(--space-2) - 1px);
+}
+
+.input[aria-invalid='true'] {
+  border-bottom-color: var(--error);
+}
+
+/* Browser autofill paints its own pale fill; keep the field bare and the text readable. */
+.input:-webkit-autofill {
+  -webkit-text-fill-color: var(--ink);
+  transition: background-color 600000s 0s, border-color 0.15s;
+}
+
+.error {
+  font-size: var(--step--1);
+  color: var(--error);
+}

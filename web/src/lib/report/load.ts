@@ -1,20 +1,18 @@
-import { gameLabel } from '../format';
-import type { Report } from './types';
+import { isMatchId } from '../format';
+import type { GameReport, MatchReport } from './analysis';
 
-const files = import.meta.glob<Report>('../../../../docs/demo/raw/*.json', { import: 'default' });
-const cache = new Map<string, Promise<Report>>();
+type AnyReport = GameReport | MatchReport;
 
-type ReportEntry = { id: string; label: string };
+const files = import.meta.glob<AnyReport>('../../../../docs/demo/reports/*.json', { import: 'default' });
+const cache = new Map<string, Promise<AnyReport>>();
 
-export const reportEntries: ReportEntry[] = Object.keys(files)
-  .map((path) => {
-    const id = path.slice(path.lastIndexOf('/') + 1, -'.json'.length);
-    return { id, label: gameLabel(id) };
-  })
-  .sort((a, b) => a.id.localeCompare(b.id, undefined, { numeric: true }));
+// Report ids: games in number order, then the match summary.
+export const reportIds = Object.keys(files)
+  .map((path) => path.slice(path.lastIndexOf('/') + 1, -'.json'.length))
+  .sort((a, b) => Number(isMatchId(a)) - Number(isMatchId(b)) || a.localeCompare(b, undefined, { numeric: true }));
 
 // Returns the same promise for the same id, so React's `use` can suspend on it.
-export function loadReport(id: string): Promise<Report> {
+export function loadReport(id: string): Promise<AnyReport> {
   let report = cache.get(id);
   if (!report) {
     const path = Object.keys(files).find((p) => p.endsWith(`/${id}.json`));
