@@ -16,7 +16,7 @@ body {
 }
 
 ::selection {
-  background: var(--team-1);
+  background: var(--highlight);
   color: var(--ink);
 }
 
