@@ -1,0 +1,34 @@
+.player {
+  display: grid;
+  overflow: hidden;
+  aspect-ratio: 16 / 9;
+  border-radius: var(--radius-m);
+  background: var(--surround);
+}
+
+.video,
+.missing {
+  grid-area: 1 / 1;
+  width: 100%;
+  height: 100%;
+}
+
+.video {
+  display: block;
+  object-fit: contain;
+  background: var(--surround);
+}
+
+.video[hidden] {
+  display: none;
+}
+
+.missing {
+  display: grid;
+  place-items: center;
+  margin: 0;
+  padding: var(--space-4);
+  color: var(--paper);
+  font-size: var(--step--1);
+  text-align: center;
+}
