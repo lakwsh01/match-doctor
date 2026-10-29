@@ -10,15 +10,15 @@
 
 .hero {
   display: grid;
-  grid-template-columns: minmax(240px, 1fr) minmax(0, 2.6fr);
+  grid-template-columns: minmax(0, 1fr) minmax(18rem, 22rem);
   gap: var(--space-5);
   align-items: start;
   margin-top: var(--space-5);
 }
 
 .play {
+  grid-column: 1 / -1;
   display: grid;
-  gap: var(--space-4);
   min-width: 0;
 }
 

@@ -21,6 +21,17 @@
 }
 
 .option[aria-pressed='true'] {
-  background: var(--ink);
-  color: var(--paper);
+  background: var(--primary);
+  color: var(--on-primary);
+}
+
+.group[data-orientation='vertical'] {
+  flex-direction: column;
+  align-items: stretch;
+}
+
+@media (max-width: 600px) {
+  .group[data-orientation='vertical'] {
+    flex-direction: row;
+  }
 }
