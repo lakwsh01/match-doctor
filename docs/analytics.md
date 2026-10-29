@@ -1,14 +1,14 @@
 # Analytics coverage
 
-This file lists the analytics a professional doubles player or coach reviews after a match, whether the raw reports in `docs/demo/raw/` support them, and what data is still missing.
+This file lists the analytics a professional doubles player or coach reviews after a match, whether the v2 raw logs in `docs/demo/raw/v2/` support them, and what data is still missing.
 
-Generated reports live in `docs/demo/reports/`: one per game and one per match (`*_match.json`). Run `npm run reports` from `web/` to rebuild them. Each figure carries its sample size: a `Rate` has `made`, `of`, and `pct`, and a `Dist` has `n`, `avg`, `min`, and `max`.
+The generated reports live in `docs/demo/reports/`: one per game and one per match (`*_match.json`). To rebuild them, run `npm run reports` from `web/`. The frontend reads only these reports. Each figure carries its sample size: a `Rate` has `made`, `of`, and `pct`, and a `Dist` has `n`, `avg`, `min`, and `max`.
 
 Status:
 
 - **Yes**: in the report, and the raw data passes its checks.
 - **Caution**: in the report, but a data-quality check fails for at least one game (see below).
-- **No**: not possible with the current raw data.
+- **No**: not possible with the current raw data, or not built yet.
 
 ## Coverage
 
@@ -19,125 +19,111 @@ Status:
 | Game result and score | Yes | `result.score`, `result.winner_team_id` |
 | Match result, games won, total points | Yes | match `result` |
 | Point-by-point score | Yes | `score_progression[]` |
-| Game-point and close-out moments | Yes | Filter `score_progression[].score` |
-| Scoring runs (longest, average) | Yes | `teams[].scoring_runs` |
-| Rallies won | Caution | `teams[].rallies_won` |
+| Scoring runs | Yes | `teams[].scoring_runs` |
+| Rallies won | Yes | `teams[].rallies_won` |
+| How each rally ended (winner, error, side-out) | Yes | `rallies[].ended_by` |
+| How each scored point was won | Caution | `teams[].point_sources` (ace, attack, winner, opponent error; v2 logs very few attacks) |
+| Score call, server number, serving side per rally | Caution | `rallies[].serve` |
 | Points won on serve | Caution | `teams[].serve_points_won` |
+| Scoring by first and second server | Caution | `teams[].serve_points_by_server[]` |
+| Scoring from the deuce and ad sides | Caution | `teams[].serve_points_by_side[]` |
 | Side-outs on receive | Caution | `teams[].side_outs` |
 | Win rate by rally length | Caution | `teams[].rally_length[]` |
-| Rally duration, pace between rallies | Yes | `rallies[].duration_sec`, `start_sec`, `end_sec` |
-| First or second server, score call (e.g. 4-2-1) | No | |
+| Rally duration | Yes | `rallies[].duration_sec` |
 
 ### Serve and return
 
 | Analytic | Status | Report field |
 | --- | --- | --- |
-| Serves in, faults | Yes | `players[].serve.in`, `.faults` |
-| Serve depth, deep serves | Yes | `players[].serve.depth_m`, `.deep` |
-| Serve speed | Yes | `players[].serve.speed_mps` |
-| Serve target lane | Yes | `rallies[].shots[0].bounce.x_m` |
+| Serves in, faults | Caution | `players[].serve.in`, `.faults` |
+| Serve and return depth | Caution | `players[].serve.depth_m`, `.deep`; `players[].return.*` |
+| Serve and return speed | Caution | `players[].serve.speed_mps`, `players[].return.speed_mps` |
+| Returner reaches the kitchen line | Yes | `players[].positioning.kitchen_arrival` |
+| Seconds from the serve to the kitchen line | Yes | `players[].positioning.kitchen_arrival_sec` |
 | Serve type (power, spin, lob) | No | |
-| Returns in, missed returns | Yes | `players[].return.in`, `.missed` |
-| Return depth, speed | Yes | `players[].return.depth_m`, `.deep`, `.speed_mps` |
-| Returner reaches the kitchen line | Caution | `players[].movement.kitchen_arrival` |
-| Time to reach the kitchen line | No | |
 
-### Third shot and transition
+### Third shot, kitchen, and attack
 
 | Analytic | Status | Report field |
 | --- | --- | --- |
-| Third-shot choice (drop or drive) | Yes | `players[].third_shot.drops`, `.drives`, `.by_gesture` |
-| Third-shot drops landing in the kitchen | Caution | `players[].third_shot.drop_in_kitchen` |
-| Drop quality (attackable or not) | No | |
-| Resets from the transition zone (count) | Yes | `players[].shots.by_gesture` (`reset`) |
-| Reset quality | No | |
-| Serving team at the net by shot 5 | No | |
-
-### Kitchen and dinks
-
-| Analytic | Status | Report field |
-| --- | --- | --- |
-| Dinks, dink errors | Caution | `players[].dinks.count`, `.errors` |
-| Dinks landing in the kitchen | Caution | `players[].dinks.in_kitchen` |
-| Dinks before the first attack | Yes | Count `rallies[].shots` up to `rallies[].first_attack` |
-| Cross-court or straight dinks | No | |
-| Erne and around-the-post shots | Yes | `players[].shots.by_gesture`, `.attacks.by_type` |
-
-### Attack and defence
-
-| Analytic | Status | Report field |
-| --- | --- | --- |
-| Attacks won, by type | Yes | `players[].attacks.won`, `.by_type[]` |
-| Who attacks first, and their win rate | Yes | `teams[].first_attack.taken`, `.won`; `rallies[].first_attack` |
-| How each rally ended (error or winner, by whom) | Caution | `rallies[].ended_by` |
-| Points finished by each player | Caution | `players[].points_won` |
-| Speed-ups on attackable balls only | No | |
+| Third-shot choice (drop or drive) | Caution | `players[].third_shot` |
+| Third-shot drops and dinks landing in the kitchen | Caution | `players[].third_shot.drop_in_kitchen`, `players[].dinks.in_kitchen` |
+| Contacts above the net | Caution | `players[].contact.above_net`, `.height_m` |
+| Attacks won by type, first attack | Caution | `players[].attacks`, `teams[].first_attack` (v2 logs very few attacks) |
+| Drop quality (was the next ball attackable) | No | Possible from contact height once it passes its check |
 | Hand battles won | No | |
 
 ### Errors
 
 | Analytic | Status | Report field |
 | --- | --- | --- |
-| Errors, unforced and forced | Caution | `players[].errors.total`, `.unforced`, `.forced`; `teams[].errors` |
-| Errors by type | Caution | `players[].errors.by_type` |
-| Errors by shot | Caution | `players[].errors.by_gesture` |
-| Errors by rally phase (serve, return, third shot...) | Caution | `players[].errors.by_phase` |
-| Errors per shot | Caution | `players[].errors.per_shot` |
+| Errors, unforced and forced, by type, shot, and phase | Caution | `players[].errors`, `teams[].errors` |
+| Points finished by each player | Yes | `players[].points_won` |
 
 ### Shot quality and placement
 
 | Analytic | Status | Report field |
 | --- | --- | --- |
-| Shot mix, forehand and backhand split | Yes | `players[].shots` |
-| Ball speed, overall and by shot | Yes | `players[].ball_speed_mps.all`, `.by_gesture[]` |
-| Bounce map, zones, lanes, in-bounds rate | Caution | `rallies[].shots[].bounce`; `players[].placement` |
-| Who opponents hit to | Yes | `players[].targeted` |
-| Net clearance, ball height at contact | No | |
-| Spin, trajectory | No | |
+| Shot mix, forehand and backhand split | Caution | `players[].shots` |
+| Ball speed | Caution | `players[].ball_speed_mps` |
+| Contact map | Yes | `rallies[].shots[].at` |
+| Bounce map, zones, lanes | Caution | `rallies[].shots[].bounce`; `players[].placement` |
+| Line-call confidence | Yes | `rallies[].shots[].bounce.line_call_confidence` |
+| Who opponents hit to | Caution | `players[].targeted` |
+| Net clearance, spin | No | |
 
-### Movement and physical
+### Movement and positioning
 
 | Analytic | Status | Report field |
 | --- | --- | --- |
-| Movement speed | Caution | `players[].movement.speed_mps` |
-| Distance covered | Caution | `players[].movement.distance_m` (move endpoints only, so a lower bound) |
-| Movement paths per rally | Caution | `rallies[].moves[]` |
-| Reaction time, by stimulus | Caution | `players[].reaction_sec.all`, `.by_stimulus[]` |
-| Position heatmap, time at the kitchen line | No | |
-| Partner spacing, stacking, court coverage | No | |
-| Split-step timing | No | |
-| Heart rate, workload | No | |
+| Movement paths per rally | Yes | `rallies[].tracks[]` as `[time_sec, x_m, y_m]` |
+| Position heatmap | Yes | `players[].positioning.heat` on the `court.heat` grid |
+| Time at the kitchen line | Yes | `players[].positioning.kitchen_time` |
+| Both partners at the kitchen line | Yes | `teams[].positioning.both_at_kitchen` |
+| Partner spacing | Yes | `teams[].positioning.partner_spacing_m` |
+| Distance from the net | Yes | `players[].positioning.net_distance_m` |
+| Movement speed, distance covered | Caution | `players[].movement.speed_mps`, `players[].positioning.distance_m` |
+| Reaction time | Caution | `players[].reaction_sec` |
+| Split-step timing, heart rate | No | |
 
 ## Data-quality checks
 
-Every game report has a `data_quality[]` list. The match report repeats it per game. On the current data:
+Every game report has a `data_quality[]` list. Each check carries its `id`, `status`, a count out of a sample size (`count`, `of`), and `params`, the numbers its explanation quotes. The title and the explanation of what the failure affects are not in the report: they come from the message files in `web/src/lib/i18n/messages/` under `check.<id>.title` and `check.<id>.detail`, one per language. The match report sums each check across games and lists the report ids of the games that failed it in `games`. Results on the v2 logs:
 
-| Check | Game 1 | Game 2 | Game 3 | What it affects |
-| --- | --- | --- | --- | --- |
-| `serve_first`: first contact is not a serve | 1 / 35 | 0 / 58 | 0 / 44 | Server and winner of that rally |
-| `side_out_scoring`: receiving team scored | 2 / 16 | 0 / 18 | 7 / 17 | Serve points, side-outs, rallies won |
-| `point_server`: `server_player_id` is not the server | 0 / 16 | 2 / 18 | 0 / 17 | Who served the point |
-| `volley_after_bounce`: volley follows a bounce | 42 / 56 | 236 / 236 | 54 / 61 | Bounce map, kitchen landings |
-| `alternating_teams`: same team hits twice in a row | 20 / 335 | 0 / 710 | 19 / 382 | Shot and dink counts (lower bound) |
-| `error_by_rally_winner`: error by the team that won | 3 / 33 | 21 / 45 | 0 / 36 | Errors, rally endings |
-| `own_half`: move centred on the opponents' half | 0 / 168 | 163 / 317 | 0 / 233 | Kitchen arrival, movement |
-| `reaction_formula`: reaction ≠ contact − stimulus | 0 / 335 | 526 / 710 | 0 / 382 | Reaction time |
-| `reaction_spread`: reactions look filled in | ok | 0.021 s spread | ok | Reaction time |
+| Check | Game 1 | Game 2 | Game 3 |
+| --- | --- | --- | --- |
+| `serve_record`: serve record differs from shot 1 | ok | ok | ok |
+| `side_out_scoring`: receiving team scored | 2 / 16 | ok | 7 / 17 |
+| `point_server`: point server differs from serve record | ok | ok | ok |
+| `score_call`: score call off the running score | 4 / 35 | 4 / 58 | ok |
+| `outcome_vs_point`: outcome winner differs from point | ok | ok | ok |
+| `alternating_teams`: same team hits twice in a row | 862 / 1056 | 961 / 1287 | 638 / 865 |
+| `volley_after_bounce`: volley after a bounce | 9 / 63 | 33 / 184 | 19 / 125 |
+| `error_by_rally_winner`: error by the rally winner | 10 / 23 | 21 / 53 | 14 / 37 |
+| `contact_height_range`: contact height below the ground | 601 / 1091 | 724 / 1345 | 450 / 909 |
+| `ball_speed_ceiling`: ball speed stuck at 28 m/s | 132 / 1091 | 626 / 1345 | 397 / 909 |
+| `movement_speed_ceiling`: movement speed stuck at 7 m/s | 1980 / 4378 | 7012 / 14866 | 4949 / 10614 |
+| `reaction_floor`: reaction under 0.1 s | 47 / 1056 | 71 / 1287 | 51 / 865 |
+| `reaction_formula`: reaction arithmetic | ok | ok | ok |
+| `reaction_spread`: reactions too uniform | ok | ok | ok |
+| `own_half`: player on the opponents' half | ok | ok | ok |
+| `bounce_side`: shot landed on the hitter's own half | 150 / 322 | 286 / 341 | 193 / 233 |
+| `contact_side`: contact on the opponents' half | 1 / 1091 | 6 / 1345 | 2 / 909 |
 
-Game 2 fails five checks. Treat its placement, error, movement, and reaction figures as unreliable until it is re-logged.
+v2 fixed the serve record, rally outcomes, timing arithmetic, and position tracks. The contact detector is now the weak point. Most contacts are repeats by the same team, about half the contact heights are impossible, and most bounces are credited to the wrong side of the net. Shot mix, placement, and per-player error figures inherit those problems.
 
 ## Data to acquire
 
-In priority order. Each item names the analytics it unlocks or repairs.
+In priority order. Each item names the checks it fixes and the analytics it unlocks.
 
-1. **Every paddle contact at native frame rate** (60 fps or more, no sampling in dink exchanges). Repairs shot counts, dink counts, rally length, and the `alternating_teams` check.
-2. **Serve record per rally**: server id, first or second server, score call, and serving side. Repairs serve points won, side-outs, and rallies won (`side_out_scoring`, `point_server`), and adds server-number analytics.
-3. **Rally end record per rally**, ideally from the referee or official stats: who ended it, winner or error, forced or unforced, plus lets, faults, and timeouts. Repairs `ended_by`, `points_won`, and the error figures.
-4. **Bounce only when the ball bounces**, with a line-call confidence. Repairs the bounce map and kitchen landings (`volley_after_bounce`).
-5. **Contact point per shot**: player x/y at contact and contact height relative to the net. Unlocks attackable-ball analysis, drop and reset quality, speed-up selection, and dink direction.
-6. **Continuous player tracking**: x/y for all four players at 10 Hz or more. Unlocks true distance covered, time to the kitchen line, position heatmaps, partner spacing, stacking, and repairs `own_half`.
-7. **Measured timing**: stimulus and contact timestamps taken from frames, not filled in. Repairs reaction time (`reaction_formula`, `reaction_spread`).
-8. **3D ball tracking**: trajectory, net clearance, apex, and spin. Unlocks shot quality and serve type.
-9. **Player metadata**: handedness and preferred side (names stay out of the report). Gives forehand and backhand figures their meaning.
-10. **Court calibration** (homography, or a second camera) so positions and speeds become measurements, not visual estimates.
-11. **Wearables** (optional): heart rate and acceleration for workload.
+1. **One contact per paddle touch, credited to the right player.** Merge repeat detections and fix the hitter bias the v2 notes describe (P2 over-assigned). Fixes `alternating_teams` and `reaction_floor`, which repairs shot counts, shot mix, rally length, and targeting.
+2. **Bounces credited to the shot that produced them.** Fixes `bounce_side` and `volley_after_bounce`, which repairs serve and return depth, kitchen landings, and the bounce map.
+3. **Calibrated contact height.** Fixes `contact_height_range` and unlocks drop and reset quality and attackable-ball analysis.
+4. **Speeds without a cap**, from court calibration (homography) and a smoothed track. Fixes `ball_speed_ceiling` and `movement_speed_ceiling`, which repairs ball speed, movement speed, and distance covered.
+5. **Attack labels on every contact.** v2 logs almost none, so attack and first-attack figures are close to empty.
+6. **Serve records checked against the scoreboard** for Games 1 and 3. Game 3 copied its scoring servers from v1. Fixes `side_out_scoring` and `score_call`.
+7. **Player errors that match the rally outcomes.** Fixes `error_by_rally_winner`.
+8. **60 fps source footage.** The v2 file probes at 29.97 fps, so contacts closer than 33 ms apart merge.
+9. **3D ball tracking** for net clearance and spin, and a serve-type label.
+10. **Player metadata**: handedness and preferred side (names stay out of the report).
+11. **Wearables** (optional): heart rate and acceleration.

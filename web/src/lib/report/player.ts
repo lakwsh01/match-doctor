@@ -1,12 +1,15 @@
-import { dist, groupBy, rate, tally } from '../stats.ts';
+import { count, dist, groupBy, rate, tally } from '../stats.ts';
 import type { Dist, Rate, Tally } from '../stats.ts';
 import { teamOf } from './derive.ts';
 import { rallyErrors } from './contacts.ts';
 import type { Contact, RallyFact } from './contacts.ts';
+import { positioning } from './position.ts';
+import type { Positioning } from './position.ts';
 import type { Bounce, Id, Report } from './types';
 
 export const DEEP_M = 1.5;
-export const KITCHEN_REACH_M = 0.75;
+// Net top height at the posts. A contact lower than this below the net top is below the ground.
+export const NET_HEIGHT_M = 0.914;
 
 type Landing = Pick<Bounce, 'x_m' | 'y_m' | 'zone' | 'in_bounds'>;
 type LabeledDist = Dist & { label: string };
@@ -24,14 +27,15 @@ export type PlayerReport = {
   errors: { total: number; unforced: number; forced: number; per_shot: Rate; by_type: Tally; by_gesture: Tally; by_phase: Tally };
   ball_speed_mps: { all: Dist; by_gesture: LabeledDist[] };
   reaction_sec: { all: Dist; by_stimulus: LabeledDist[] };
-  movement: { speed_mps: Dist; distance_m: number; kitchen_arrival: Rate };
+  contact: { height_m: Dist; above_net: Rate };
+  movement: { speed_mps: Dist };
+  positioning: Positioning;
   placement: { in: Rate; kitchen: Rate; by_zone: Tally; by_lane: Tally };
   targeted: Rate;
 };
 
 const PHASES = ['serve', 'return', 'third_shot', 'fourth_shot'];
 const phase = (shot: number) => (shot === 0 ? 'no_contact' : (PHASES[shot - 1] ?? 'fifth_shot_or_later'));
-const count = <T>(items: T[], test: (item: T) => boolean) => items.filter(test).length;
 
 function distBy<T>(items: T[], label: (item: T) => string, value: (item: T) => number | null): LabeledDist[] {
   return groupBy(
@@ -41,13 +45,13 @@ function distBy<T>(items: T[], label: (item: T) => string, value: (item: T) => n
 }
 
 export function playerReport(raw: Report, facts: RallyFact[], playerId: Id): PlayerReport {
-  const { width_m, length_m, net_y_m, kitchen_depth_m } = raw.conventions.court;
+  const court = raw.conventions.court;
+  const { width_m, length_m, net_y_m } = court;
   const teamId = teamOf(raw, playerId);
-  const end = raw.match.teams.find((t) => t.team_id === teamId)?.end;
+  const end = raw.match.teams.find((t) => t.team_id === teamId)?.end ?? 'far';
   const p = raw.players[playerId];
 
   const own = facts.flatMap((f) => f.contacts.filter((c) => c.player_id === playerId));
-  const moves = facts.flatMap((f) => f.moves.filter((m) => m.player_id === playerId));
   const errors = facts.flatMap((f) => rallyErrors(f).filter((e) => e.player_id === playerId));
   const attacks = own.flatMap((c) => (c.attack ? [c.attack] : []));
 
@@ -55,10 +59,6 @@ export function playerReport(raw: Report, facts: RallyFact[], playerId: Id): Pla
   const toBaseline = (b: Landing) => (b.y_m > net_y_m ? length_m - b.y_m : b.y_m);
   const inKitchen = (b: Landing | null) => Boolean(b?.in_bounds && b.zone.endsWith('_kitchen'));
   const lane = (b: Landing) => (b.x_m < width_m / 3 ? 'left' : b.x_m < (width_m * 2) / 3 ? 'middle' : 'right');
-  const atKitchenLine = (y: number) =>
-    end === 'far'
-      ? y >= net_y_m - kitchen_depth_m - KITCHEN_REACH_M && y <= net_y_m
-      : y >= net_y_m && y <= net_y_m + kitchen_depth_m + KITCHEN_REACH_M;
 
   const opening = (cs: Contact[]) => {
     const depths = landed(cs).map(toBaseline);
@@ -79,7 +79,7 @@ export function playerReport(raw: Report, facts: RallyFact[], playerId: Id): Pla
   const replies = facts.flatMap((f) =>
     f.contacts.slice(1).filter((c, i) => c.team_id === teamId && f.contacts[i].team_id !== teamId),
   );
-  const rallies = new Set([...own, ...moves].map((x) => x.rally_number));
+  const heights = own.map((c) => c.at.height_above_net_m).filter((h) => h >= -NET_HEIGHT_M);
 
   return {
     player_id: playerId,
@@ -129,11 +129,9 @@ export function playerReport(raw: Report, facts: RallyFact[], playerId: Id): Pla
       all: dist(own.flatMap((c) => (c.reaction_sec === null ? [] : [c.reaction_sec]))),
       by_stimulus: distBy(own, (c) => c.stimulus ?? '', (c) => c.reaction_sec),
     },
-    movement: {
-      speed_mps: dist(moves.map((m) => m.speed_mps)),
-      distance_m: moves.reduce((sum, m) => sum + Math.hypot(m.to.x_m - m.from.x_m, m.to.y_m - m.from.y_m), 0),
-      kitchen_arrival: rate(new Set(moves.filter((m) => atKitchenLine(m.to.y_m)).map((m) => m.rally_number)).size, rallies.size),
-    },
+    contact: { height_m: dist(heights), above_net: rate(count(heights, (h) => h > 0), heights.length) },
+    movement: { speed_mps: dist(p.movement_speeds.map((m) => m.speed_mps)) },
+    positioning: positioning(facts, playerId, court, end),
     placement: {
       in: rate(count(bounces, (b) => b.in_bounds), bounces.length),
       kitchen: rate(count(bounces, inKitchen), count(bounces, (b) => b.in_bounds)),

@@ -4,15 +4,15 @@ import { buildGameReport, buildMatchReport } from '../src/lib/report/analysis.ts
 import type { GameReport } from '../src/lib/report/analysis.ts';
 import type { Report } from '../src/lib/report/types';
 
-// Reads docs/demo/raw/*.json and writes one report per game plus one per match to docs/demo/reports/.
+// Reads docs/demo/raw/v2/*.json and writes one report per game plus one per match to docs/demo/reports/.
 const docs = fileURLToPath(new URL('../../docs/demo/', import.meta.url));
-const rawDir = `${docs}raw/`;
+const rawDir = `${docs}raw/v2/`;
 const outDir = `${docs}reports/`;
 
 const round = (_key: string, value: unknown) =>
   typeof value === 'number' && !Number.isInteger(value) ? Math.round(value * 1000) / 1000 : value;
 const write = (name: string, data: object) => {
-  writeFileSync(`${outDir}${name}.json`, `${JSON.stringify(data, round, 2)}\n`);
+  writeFileSync(`${outDir}${name}.json`, `${JSON.stringify(data, round)}\n`);
   console.log(`wrote docs/demo/reports/${name}.json`);
 };
 
@@ -21,7 +21,7 @@ const games = readdirSync(rawDir)
   .sort((a, b) => a.localeCompare(b, undefined, { numeric: true }))
   .map((file) => {
     const raw = JSON.parse(readFileSync(`${rawDir}${file}`, 'utf8')) as Report;
-    return buildGameReport(file.replace(/\.json$/, ''), `docs/demo/raw/${file}`, raw);
+    return buildGameReport(file.replace(/(_v2)?\.json$/, ''), `docs/demo/raw/v2/${file}`, raw);
   });
 
 mkdirSync(outDir, { recursive: true });

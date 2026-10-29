@@ -5,6 +5,8 @@ export type Tally = { label: string; value: number }[];
 
 export const rate = (made: number, of: number): Rate => ({ made, of, pct: of ? made / of : null });
 
+export const count = <T>(items: T[], test: (item: T) => boolean) => items.filter(test).length;
+
 export const mean = (values: number[]) => values.reduce((sum, v) => sum + v, 0) / values.length;
 
 export function dist(values: number[]): Dist {
@@ -37,7 +39,8 @@ const pick = (f: (a: number, b: number) => number, a: Mergeable, b: Mergeable) =
   typeof a === 'number' && typeof b === 'number' ? f(a, b) : (a ?? b);
 
 // Combines two figures of the same shape: counts add, rates and distributions re-weight,
-// lists of `{ label }` rows merge row by row, and labels or ids keep the first value.
+// lists of `{ label }` rows merge row by row, number lists add element-wise, and labels or ids
+// keep the first value.
 export function merge<T>(a: T, b: T): T {
   return mergeValue(a as Mergeable, b as Mergeable) as T;
 }
@@ -56,6 +59,9 @@ function mergeValue(a: Mergeable, b: Mergeable): Mergeable {
 }
 
 function mergeRows(a: Mergeable[], b: Mergeable[]): Mergeable[] {
+  if (a.length === b.length && [...a, ...b].every((v) => typeof v === 'number')) {
+    return a.map((v, i) => Number(v) + Number(b[i]));
+  }
   if (![...a, ...b].every((row) => isRecord(row) && typeof row.label === 'string')) return a;
   const rows = new Map<Mergeable, Mergeable>();
   for (const row of [...a, ...b] as Fields[]) {
