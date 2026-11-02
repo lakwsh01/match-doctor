@@ -1,0 +1,39 @@
+/* Tabs on the left, games on the right; one row on a desktop, two on a phone. Stays in view while reading. */
+.bar {
+  position: sticky;
+  top: 0;
+  z-index: 3;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0 var(--space-4);
+  min-height: var(--v2-bar);
+  border-bottom: 1px solid var(--rule);
+  background: var(--paper);
+}
+
+.body {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--space-5);
+  align-items: start;
+}
+
+.panel {
+  min-width: 0;
+  padding-top: var(--space-5);
+}
+
+/* With a rally playing on a wide screen, the video takes its own column beside the report. */
+@media (min-width: 1200px) {
+  .body[data-docked='true'] {
+    grid-template-columns: minmax(0, 1fr) var(--v2-dock);
+  }
+}
+
+@media (max-width: 720px) {
+  .bar {
+    padding-bottom: var(--space-2);
+  }
+}

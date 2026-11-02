@@ -1,0 +1,110 @@
+.summary {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: var(--space-5);
+  align-items: start;
+  margin-bottom: var(--space-5);
+}
+
+.part {
+  display: grid;
+  gap: var(--space-2);
+}
+
+.subtitle {
+  margin: 0;
+  padding-bottom: var(--space-2);
+  font-size: var(--step-0);
+  font-weight: 700;
+  text-align: left;
+}
+
+.patterns {
+  display: grid;
+  gap: var(--space-2);
+  margin: 0;
+  padding-left: var(--space-4);
+  max-width: var(--measure);
+}
+
+.none {
+  color: var(--muted);
+  font-size: var(--step--1);
+}
+
+.scroll {
+  max-height: 28rem;
+  overflow: auto;
+  border: 1px solid var(--rule);
+  border-radius: var(--radius-m);
+  background: var(--surface);
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--step--1);
+}
+
+.scroll .table {
+  min-width: 36rem;
+}
+
+.table th,
+.table td {
+  padding: var(--space-2) var(--space-3);
+  border-bottom: 1px solid var(--rule);
+  text-align: left;
+  vertical-align: top;
+}
+
+.scroll thead th {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  background: var(--surface);
+  box-shadow: inset 0 -1px 0 var(--rule);
+}
+
+.table thead th {
+  color: var(--muted);
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.table th[scope='row'] {
+  font-weight: 600;
+}
+
+.head {
+  display: inline-flex;
+  gap: var(--space-2);
+  align-items: center;
+}
+
+.table .num {
+  font-variant-numeric: tabular-nums;
+}
+
+.detail {
+  display: block;
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.watch {
+  padding: 0;
+  border: 0;
+  background: none;
+  font-weight: 700;
+  white-space: nowrap;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  cursor: pointer;
+}
+
+@media (max-width: 960px) {
+  .summary {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}

@@ -1,0 +1,47 @@
+.radar {
+  margin: 0;
+}
+
+.svg {
+  display: block;
+  width: 100%;
+  max-width: 26rem;
+  height: auto;
+  overflow: visible;
+}
+
+.ring {
+  fill: none;
+  stroke: var(--rule);
+}
+
+.spoke {
+  stroke: var(--rule);
+}
+
+.shape {
+  fill: currentColor;
+  fill-opacity: 0.55;
+  stroke: var(--v2-ring);
+  stroke-width: 1.5;
+  stroke-linejoin: round;
+}
+
+.axis {
+  font-size: 12px;
+}
+
+.axisLabel {
+  fill: var(--muted);
+}
+
+.axisValue {
+  fill: var(--ink);
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+.axis[data-dashed='true'] .axisValue {
+  fill: var(--muted);
+  text-decoration: underline dashed;
+}

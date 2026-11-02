@@ -1,0 +1,82 @@
+.list {
+  display: grid;
+  gap: var(--space-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.row {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: var(--space-3);
+  width: 100%;
+  padding: var(--space-3);
+  border: 1px solid var(--rule);
+  border-radius: var(--radius-m);
+  background: var(--surface);
+  text-align: left;
+  cursor: pointer;
+  transition:
+    transform var(--dur-press) var(--ease-out),
+    border-color var(--dur-hover) ease;
+}
+
+/* A full-width row presses less than a button, or the shrink would read as a jump. */
+.row:active {
+  transform: scale(0.99);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .row:hover {
+    border-color: var(--edge);
+  }
+}
+
+.play {
+  display: grid;
+  place-items: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  border-radius: 50%;
+  background: var(--court);
+}
+
+.play::after {
+  content: '';
+  margin-left: 3px;
+  border-block: 6px solid transparent;
+  border-left: 10px solid var(--ball);
+}
+
+.text {
+  display: grid;
+}
+
+.kind {
+  font-weight: 700;
+}
+
+.meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 var(--space-2);
+  color: var(--muted);
+  font-size: var(--step--1);
+}
+
+.time {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-variant-numeric: tabular-nums;
+  font-weight: 600;
+}
+
+.dot {
+  width: 0.625rem;
+  height: 0.625rem;
+  border: 1.5px solid var(--v2-ring);
+  border-radius: 50%;
+}

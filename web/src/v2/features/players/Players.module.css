@@ -1,0 +1,9 @@
+.page,
+.subject {
+  display: grid;
+  gap: var(--space-6);
+}
+
+.subject {
+  min-width: 0;
+}

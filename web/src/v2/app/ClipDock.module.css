@@ -1,0 +1,97 @@
+.dock {
+  position: fixed;
+  right: var(--space-3);
+  bottom: var(--space-3);
+  left: var(--space-3);
+  z-index: 5;
+  display: grid;
+  gap: var(--space-2);
+  max-width: var(--v2-dock);
+  margin-left: auto;
+  padding: var(--space-3);
+  border: 1px solid var(--v2-ring);
+  border-radius: var(--radius-m);
+  background: var(--night);
+  color: var(--paper);
+  animation: rise var(--dur-sheet) var(--ease-drawer);
+}
+
+/* Below a wide screen the dock is a sheet: it comes up from the bottom edge it sits on.
+   It plays once per opening; picking another rally keeps the dock where it is. */
+@keyframes rise {
+  from {
+    transform: translateY(calc(100% + var(--space-4)));
+  }
+}
+
+@keyframes slide {
+  from {
+    opacity: 0;
+    transform: translateX(12px);
+  }
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+}
+
+.title {
+  margin: 0;
+  font-size: var(--step--1);
+  font-weight: 700;
+}
+
+.close {
+  min-height: var(--control);
+  padding: 0 var(--space-3);
+  border: 1px solid var(--paper);
+  border-radius: var(--radius-s);
+  background: transparent;
+  color: var(--paper);
+  font-weight: 600;
+  white-space: nowrap;
+  cursor: pointer;
+  transition:
+    transform var(--dur-press) var(--ease-out),
+    background-color var(--dur-hover) ease,
+    color var(--dur-hover) ease;
+}
+
+.close:active {
+  transform: scale(0.97);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .close:hover {
+    background: var(--paper);
+    color: var(--night);
+  }
+}
+
+/* A phone keeps the sheet to the video and one short line above it. */
+@media (max-width: 720px) {
+  .dock {
+    right: var(--space-2);
+    bottom: var(--space-2);
+    left: var(--space-2);
+    gap: var(--space-1);
+    padding: var(--space-2);
+  }
+}
+
+/* Wide screens: the dock is the report's second column and travels with the reader below the sticky bar. */
+@media (min-width: 1200px) {
+  .dock {
+    position: sticky;
+    top: var(--v2-sticky);
+    right: auto;
+    bottom: auto;
+    left: auto;
+    max-width: none;
+    margin: var(--space-5) 0 0;
+    animation: slide var(--dur-sheet) var(--ease-out);
+  }
+}

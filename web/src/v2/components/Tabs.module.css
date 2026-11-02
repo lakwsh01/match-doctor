@@ -1,0 +1,52 @@
+.tabs {
+  display: flex;
+  gap: var(--space-4);
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+/* On a phone the last tab can sit past the edge: fade it so the row reads as scrollable. */
+@media (max-width: 720px) {
+  .tabs {
+    padding-right: var(--space-5);
+    mask-image: linear-gradient(to right, var(--night) calc(100% - var(--space-5)), transparent);
+  }
+}
+
+.tab {
+  position: relative;
+  flex: none;
+  white-space: nowrap;
+  padding: var(--space-3) 0;
+  border: 0;
+  background: none;
+  color: var(--muted);
+  font-weight: 600;
+  font-variation-settings: 'wdth' var(--wdth-narrow);
+  cursor: pointer;
+  transition: color var(--dur-hover) ease;
+}
+
+/* No indicator slide: a tab change replaces the view, and arrow keys repeat it fast. */
+@media (hover: hover) and (pointer: fine) {
+  .tab:hover {
+    color: var(--ink);
+  }
+}
+
+.tab[aria-selected='true'] {
+  color: var(--ink);
+}
+
+.tab[aria-selected='true']::after {
+  content: '';
+  position: absolute;
+  inset: auto 0 -1px;
+  height: 4px;
+  border: 1px solid var(--v2-ring);
+  background: var(--primary);
+}
+
+.tab:focus-visible {
+  outline-offset: -2px;
+}

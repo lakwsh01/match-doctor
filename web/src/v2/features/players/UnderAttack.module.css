@@ -1,0 +1,73 @@
+.grid {
+  display: grid;
+  grid-template-columns: minmax(0, 18rem) minmax(0, 1fr);
+  gap: var(--space-6);
+  align-items: start;
+}
+
+.side {
+  display: grid;
+  gap: var(--space-5);
+}
+
+.stance {
+  max-width: var(--measure);
+  margin: 0;
+}
+
+.holes {
+  display: grid;
+  gap: var(--space-2);
+  margin: 0;
+}
+
+.subtitle {
+  font-weight: 700;
+}
+
+.list {
+  display: grid;
+  gap: var(--space-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: var(--step--1);
+}
+
+.hole {
+  display: grid;
+  grid-template-columns: var(--v2-label) minmax(0, 1fr) 2ch;
+  gap: var(--space-3);
+  align-items: center;
+}
+
+.track {
+  height: 0.625rem;
+  border-radius: var(--radius-s);
+  background: var(--v2-track);
+}
+
+.bar {
+  display: block;
+  height: 100%;
+  border: 1px solid var(--v2-ring);
+  border-radius: var(--radius-s);
+}
+
+.count {
+  font-variant-numeric: tabular-nums;
+  font-weight: 700;
+  text-align: right;
+}
+
+@media (max-width: 960px) {
+  .grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+@media (max-width: 480px) {
+  .hole {
+    grid-template-columns: minmax(0, 1fr) 5rem 2ch;
+  }
+}

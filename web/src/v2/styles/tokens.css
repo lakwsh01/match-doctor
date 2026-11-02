@@ -1,0 +1,38 @@
+/* v2 additions to styles/tokens.css. Every name carries the v2 prefix so the trial never overrides a main token. */
+:root {
+  /* The usual 3.5–4.0 range on every track: a quiet hatched band */
+  --v2-band: rgb(11 15 10 / 0.06);
+  --v2-band-edge: rgb(11 15 10 / 0.22);
+  --v2-hatch: repeating-linear-gradient(135deg, rgb(11 15 10 / 0.18) 0 1px, transparent 1px 5px);
+
+  /* Marks on the light page: neon fills always sit in a night ring */
+  --v2-ring: var(--night);
+  --v2-track: var(--chalk-2);
+  --v2-connector: rgb(11 15 10 / 0.55);
+
+  /* The diagnosis headline and the condensed numerals */
+  --v2-step-verdict: clamp(2rem, 1.2rem + 2.6vw, 3.25rem);
+  --v2-step-figure: 1.75rem;
+  --v2-wdth-verdict: 88;
+
+  /* Categories (shot kinds, targets, depths): a ramp from night to white, never a team or ball color */
+  --v2-cat-1: var(--night);
+  --v2-cat-2: var(--stone);
+  --v2-cat-3: var(--sage);
+  --v2-cat-4: var(--chalk-2);
+  --v2-cat-5: var(--white);
+
+  /* Layout. --v2-sticky clears the sticky tab bar for anything pinned or scrolled to below it. */
+  --v2-bar: 3.5rem;
+  --v2-sticky: 4.5rem;
+  --v2-rail: 13.5rem;
+  --v2-label: minmax(9rem, 15rem);
+  --v2-dock: 24rem;
+}
+
+/* On a phone the sticky bar holds two rows: the tabs, then the games. */
+@media (max-width: 720px) {
+  :root {
+    --v2-sticky: 6.75rem;
+  }
+}

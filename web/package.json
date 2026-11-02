@@ -8,6 +8,7 @@
     "build": "tsc --noEmit && vite build",
     "preview": "vite preview",
     "reports": "node scripts/build-reports.ts",
+    "reports:v2": "node scripts/build-reports-v2.ts",
     "demo": "node scripts/generate-demo.ts"
   },
   "dependencies": {

@@ -1,0 +1,31 @@
+.details {
+  display: grid;
+  margin: 0;
+  font-size: var(--step--1);
+}
+
+.row {
+  display: grid;
+  grid-template-columns: 5.5rem 1fr;
+  gap: var(--space-3);
+  padding-block: var(--space-2);
+  border-bottom: 1px solid var(--rule);
+}
+
+.term {
+  color: var(--muted);
+}
+
+.value {
+  margin: 0;
+}
+
+.team {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 var(--space-3);
+}
+
+.player {
+  white-space: nowrap;
+}

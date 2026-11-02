@@ -1,0 +1,36 @@
+.worm {
+  margin: 0;
+}
+
+.svg {
+  display: block;
+  width: 100%;
+  height: 12rem;
+}
+
+.game {
+  fill: var(--surface);
+}
+
+.label {
+  fill: var(--muted);
+  font-size: 12px;
+}
+
+.zero {
+  stroke: var(--ink);
+  stroke-width: 1;
+  vector-effect: non-scaling-stroke;
+}
+
+.bar {
+  stroke: var(--v2-ring);
+  stroke-width: 1;
+  vector-effect: non-scaling-stroke;
+}
+
+@media (max-width: 600px) {
+  .svg {
+    height: 9rem;
+  }
+}

@@ -1,0 +1,65 @@
+.stack {
+  display: grid;
+  gap: var(--space-2);
+  margin: 0;
+}
+
+.caption {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-2);
+}
+
+.label {
+  font-size: var(--step--1);
+  font-weight: 600;
+}
+
+.note {
+  color: var(--muted);
+  font-size: var(--step--1);
+}
+
+.bar {
+  display: flex;
+  gap: 2px;
+  height: 0.75rem;
+}
+
+.part {
+  min-width: 2px;
+  border: 1px solid var(--v2-ring);
+  border-radius: 2px;
+}
+
+.legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-1) var(--space-3);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: var(--step--1);
+  color: var(--muted);
+}
+
+.item {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+}
+
+.swatch {
+  width: 0.5rem;
+  height: 0.5rem;
+  border: 1px solid var(--v2-ring);
+  border-radius: 2px;
+}
+
+.value {
+  color: var(--ink);
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}

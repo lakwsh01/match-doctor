@@ -1,0 +1,65 @@
+.page {
+  max-width: var(--page);
+  margin: 0 auto;
+  padding: 0 var(--space-4) var(--space-6);
+}
+
+.header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  padding-block: var(--space-3);
+  border-bottom: 1px solid var(--rule);
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.preview {
+  padding: 2px var(--space-2);
+  border: 1px dashed var(--v2-band-edge);
+  border-radius: var(--radius-s);
+  color: var(--muted);
+  font-size: var(--step--1);
+}
+
+.account {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-3);
+  color: var(--muted);
+  font-size: var(--step--1);
+}
+
+.back {
+  color: var(--ink);
+  font-weight: 600;
+  text-underline-offset: 3px;
+}
+
+/* A report that loads at once never dims; a slow one dims after a beat and brightens at once. */
+.body {
+  transition: opacity var(--dur-hover) ease;
+}
+
+.body[data-loading='true'] {
+  opacity: 0.55;
+  transition-delay: var(--dur-wait);
+}
+
+.status {
+  margin-top: var(--space-5);
+  color: var(--muted);
+}
+
+@media (max-width: 600px) {
+  .page {
+    padding-inline: var(--space-3);
+  }
+}

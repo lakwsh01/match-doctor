@@ -2,6 +2,8 @@ import { useMemo } from 'react';
 import { I18nContext } from '../components/useT';
 import { signOut } from '../lib/auth/actions';
 import { createTranslator } from '../lib/i18n/translate';
+import { ReportsV2 } from '../v2/app/ReportsV2';
+import { isV2Path } from '../v2/lib/route';
 import { AuthScreen } from './AuthScreen';
 import { Reports } from './Reports';
 import { useLocale } from './useLocale';
@@ -17,6 +19,8 @@ export function App() {
   const screen =
     session === undefined ? null : session === null || session.name === null ? (
       <AuthScreen newAccountEmail={session?.email ?? null} locale={locale} onLocale={setLocale} />
+    ) : isV2Path(window.location.pathname) ? (
+      <ReportsV2 email={session.email} locale={locale} onLocale={setLocale} onSignOut={signOut} />
     ) : (
       <Reports email={session.email} locale={locale} onLocale={setLocale} onSignOut={signOut} />
     );

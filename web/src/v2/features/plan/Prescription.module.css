@@ -1,0 +1,39 @@
+.page {
+  display: grid;
+  gap: var(--space-6);
+}
+
+.lead {
+  max-width: 44ch;
+  margin: 0;
+  font-size: var(--step-2);
+  font-variation-settings: 'wdth' var(--wdth-narrow);
+  font-weight: 700;
+  line-height: 1.2;
+  text-wrap: balance;
+  word-break: keep-all;
+  overflow-wrap: anywhere;
+}
+
+.list {
+  display: grid;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.keep {
+  max-width: 28ch;
+  margin: 0;
+  padding: var(--space-1) var(--space-3);
+  border: 1px solid var(--ink);
+  border-radius: var(--radius-s);
+  color: var(--ink);
+  font-size: var(--step--1);
+  font-weight: 700;
+}
+
+.none {
+  color: var(--muted);
+  font-size: var(--step--1);
+}
