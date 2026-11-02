@@ -35,8 +35,10 @@
   margin-top: var(--space-2);
 }
 
-.table tbody tr:hover {
-  background: var(--hover);
+@media (hover: hover) and (pointer: fine) {
+  .table tbody tr:hover {
+    background: var(--hover);
+  }
 }
 
 .table tbody tr[data-selected='true'] {

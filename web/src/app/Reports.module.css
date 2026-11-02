@@ -22,12 +22,14 @@
   color: var(--muted);
 }
 
+/* A report that loads at once never dims; a slow one dims after a beat and brightens at once. */
 .body {
-  transition: opacity 0.15s;
+  transition: opacity var(--dur-hover) ease;
 }
 
 .body[data-loading='true'] {
   opacity: 0.55;
+  transition-delay: var(--dur-wait);
 }
 
 .status {

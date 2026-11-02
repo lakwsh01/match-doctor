@@ -52,9 +52,10 @@
   opacity: 0.75;
 }
 
+/* The line travels at the ball's pace, so it reaches each contact as that mark appears. */
 .draw {
   stroke-dasharray: 1;
-  animation: draw 1.2s var(--ease-out) both;
+  animation: draw var(--dur-trace) linear both;
 }
 
 .in {
@@ -70,7 +71,8 @@
 }
 
 .enter {
-  animation: appear 0.25s var(--ease-out) both;
+  animation: appear var(--dur-hover) var(--ease-out) both;
+  animation-delay: calc(var(--dur-trace) * var(--at));
 }
 
 @keyframes draw {

@@ -14,11 +14,23 @@
   font-variation-settings: 'wdth' var(--wdth-narrow);
   font-weight: 600;
   cursor: pointer;
+  transition:
+    transform var(--dur-press) var(--ease-out),
+    background-color var(--dur-hover) ease;
 }
 
-.trigger:hover,
+.trigger:active {
+  transform: scale(0.97);
+}
+
 .trigger[data-state='open'] {
   background: var(--rule);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .trigger:hover {
+    background: var(--rule);
+  }
 }
 
 .chevron,
@@ -33,7 +45,7 @@
 }
 
 .chevron {
-  transition: transform 0.15s var(--ease-out);
+  transition: transform var(--dur-hover) var(--ease-out);
 }
 
 .trigger[data-state='open'] .chevron {
@@ -49,16 +61,40 @@
   padding: var(--space-1);
   background: var(--surface);
   color: var(--ink);
+  transform-origin: var(--radix-popover-content-transform-origin);
 }
 
+/* It grows out of the trigger it belongs to, and leaves faster than it came. */
 .content[data-state='open'] {
-  animation: open 0.15s var(--ease-out);
+  animation: open var(--dur-pop) var(--ease-out);
+}
+
+.content[data-state='closed'] {
+  animation: close var(--dur-exit) var(--ease-out) forwards;
 }
 
 @keyframes open {
   from {
     opacity: 0;
-    transform: translateY(-4px);
+    transform: scale(0.96);
+  }
+}
+
+@keyframes close {
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes fade {
+  from {
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .content[data-state='open'] {
+    animation-name: fade;
   }
 }
 
@@ -82,8 +118,10 @@
   cursor: pointer;
 }
 
-.option:hover {
-  background: var(--hover);
+@media (hover: hover) and (pointer: fine) {
+  .option:hover {
+    background: var(--hover);
+  }
 }
 
 .option[aria-pressed='true'] {

@@ -50,11 +50,20 @@
   color: var(--on-primary);
   font-weight: 600;
   cursor: pointer;
-  transition: opacity 0.15s;
+  transition:
+    transform var(--dur-press) var(--ease-out),
+    box-shadow var(--dur-hover) ease;
 }
 
-.submit:hover {
-  opacity: 0.88;
+.submit:active:not(:disabled) {
+  transform: scale(0.97);
+}
+
+/* A night ring, as on every primary fill: a fading button would read as disabled. */
+@media (hover: hover) and (pointer: fine) {
+  .submit:hover:not(:disabled) {
+    box-shadow: inset 0 0 0 2px var(--ink);
+  }
 }
 
 .submit:disabled {

@@ -14,10 +14,18 @@
   font-variation-settings: 'wdth' var(--wdth-narrow);
   font-weight: 600;
   cursor: pointer;
+  transition: transform var(--dur-press) var(--ease-out);
 }
 
-.option:hover {
-  background: var(--paper);
+/* The selection fill changes with the content beside it, so it snaps; only the press moves. */
+.option:active {
+  transform: scale(0.97);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .option:hover:not([aria-pressed='true']) {
+    background: var(--paper);
+  }
 }
 
 .option[aria-pressed='true'] {

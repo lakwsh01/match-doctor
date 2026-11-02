@@ -1,3 +1,4 @@
+import type { CSSProperties } from 'react';
 import styles from './Court.module.css';
 
 type Spot = { x: number; y: number };
@@ -20,7 +21,6 @@ type CourtProps = {
 };
 
 const PAD = 1;
-const TRACE_SEC = 1.2;
 
 // Top-down court with the far end at the top, matching the video. Input is in meters:
 // x across the court (0 = left sideline), y along it (0 = far baseline).
@@ -29,7 +29,6 @@ const TRACE_SEC = 1.2;
 export function Court({ label, width, length, net, kitchen, heat, heatTone, paths, marks, ball, trace }: CourtProps) {
   const toSvg = (s: Spot) => `${s.x},${s.y}`;
   const ballLine = (ball.length > 1 ? ball : trace ? marks : []).map(toSvg).join(' ');
-  const step = trace && marks.length > 1 ? TRACE_SEC / marks.length : 0;
   const enter = trace ? styles.enter : '';
 
   return (
@@ -74,7 +73,7 @@ export function Court({ label, width, length, net, kitchen, heat, heatTone, path
           cy={m.y}
           r={0.13}
           className={`${m.hollow ? styles.out : styles.in} ${enter}`}
-          style={{ color: m.tone, animationDelay: trace ? `${i * step}s` : undefined }}
+          style={{ color: m.tone, '--at': trace ? i / marks.length : 0 } as CSSProperties}
         />
       ))}
     </svg>

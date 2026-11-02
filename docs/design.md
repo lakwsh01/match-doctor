@@ -290,11 +290,27 @@ One variable family, **Archivo**, loaded from Google Fonts with the width axis (
 | `--page` | 1240 px max width |
 | `--column` | 26 rem, auth and narrow column |
 | `--measure` | 68ch |
-| `--ease-out` | `cubic-bezier(0.16, 1, 0.3, 1)` |
+| `--ease-out` | `cubic-bezier(0.16, 1, 0.3, 1)`: things arriving or answering a press |
+| `--ease-in-out` | `cubic-bezier(0.77, 0, 0.175, 1)`: something moving across the screen (the rail ball) |
+| `--ease-drawer` | `cubic-bezier(0.32, 0.72, 0, 1)`: a sheet rising from the bottom edge |
+| `--dur-wait` | 120 ms before a slow load dims the report |
+| `--dur-press` | 120 ms, press feedback |
+| `--dur-hover` | 150 ms, hover colour, ring, and border |
+| `--dur-pop` / `--dur-exit` | 160 ms in / 100 ms out, popovers |
+| `--dur-view` | 180 ms, a view replacing another |
+| `--dur-sheet` | 280 ms, the video dock arriving |
+| `--dur-focal` | 420 ms, the rail ball travelling to a phase |
+| `--dur-trace` | 1.2 s, the rally replay on the court |
 
 - **Elevation is a hairline, not a shadow.** A card is `--surface` (white) on `--paper` (chalk), separated by `--rule`. No drop shadows, no glows. The one overlay is `--scrim`.
 - **Layout:** design at desktop width, then hold down to 375 px with no horizontal scroll. Breakpoints in use: 900 px (auth split, game grid) and 600 px (scoreboard, court view, report list).
-- **Motion:** 120 ms for hover, 200 ms for state change, `--ease-out`. Under `prefers-reduced-motion: reduce` every animation and transition collapses to ~0 ms (already set in `global.css`) and the sign-in clip shows its still poster.
+- **Motion** explains a change; it never decorates. The one authored move is the rail ball in the v2 trial; `Court`'s trace mode (the path drawing in at the ball's pace) is timed on `--dur-trace`, though no screen turns it on today. Everything else is feedback:
+  - Button-shaped controls press to `scale(0.97)` (`0.99` for a full-width row). Text links and text tabs do not scale.
+  - Hover colour, ring, and border ease over `--dur-hover`, only under `@media (hover: hover) and (pointer: fine)`, so a tap never leaves a hover behind. Never `transition: all`.
+  - A popover grows from its trigger (`--radix-popover-content-transform-origin`) and leaves faster than it came.
+  - A view that replaces another fades in with `data-enter` (opacity only, `global.css`) when the change came from a pointer; a keyboard move swaps at once.
+  - Selection fills, list rows, filters, and data marks do not animate. Lists never stagger.
+  - Under `prefers-reduced-motion: reduce` the moving durations (`--dur-press`, `--dur-sheet`, `--dur-focal`, `--dur-trace`) are 0 ms, so the replay and the ball land at their end state. Fades and colour changes stay, because they explain what changed. The sign-in clip shows its still poster.
 
 ## 12. Components
 
@@ -391,7 +407,20 @@ Inputs and buttons should be at least 44 px tall on touch widths.
   --space-6: 4rem;
   --radius-s: 3px;
   --radius-m: 8px;
+
+  /* Motion */
+  --dur-wait: 120ms;
+  --dur-press: 120ms;
+  --dur-hover: 150ms;
+  --dur-pop: 160ms;
+  --dur-exit: 100ms;
+  --dur-view: 180ms;
+  --dur-sheet: 280ms;
+  --dur-focal: 420ms;
+  --dur-trace: 1.2s;
   --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
+  --ease-drawer: cubic-bezier(0.32, 0.72, 0, 1);
   --page: 1240px;
   --column: 26rem;
   --measure: 68ch;
@@ -460,6 +489,6 @@ CSS that changed with the palette:
 - Remove all color and re-read the view: team, status, and ball are still identifiable.
 - Tab through the view: the focus ring is visible on every stop, including on the sign-in clip.
 - Resize to 375 px: no horizontal scroll.
-- Toggle `prefers-reduced-motion`: nothing animates.
+- Toggle `prefers-reduced-motion`: nothing travels (no press scale, sheet, ball, or replay); fades and colour changes remain.
 
 Numbers in sections 5 and 8 were computed from the hex values: contrast by WCAG 2.x relative luminance; ΔE as OKLab distance ×100; color-blind views by Machado et al. (2009) simulation matrices at full severity, applied in linear RGB.

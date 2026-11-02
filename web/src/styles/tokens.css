@@ -73,8 +73,34 @@
   --control: 2.5rem;
   --radius-s: 3px;
   --radius-m: 8px;
+  /* Motion. Durations name the job, not the speed: press feedback, hover colour, a popover,
+     a view replacing another, a sheet arriving, the one focal move, a rally replay.
+     Exits use --dur-exit, always quicker than the entrance; --dur-wait is how long a slow load
+     waits before it shows, so a fast one never flickers. */
+  --dur-wait: 120ms;
+  --dur-press: 120ms;
+  --dur-hover: 150ms;
+  --dur-pop: 160ms;
+  --dur-exit: 100ms;
+  --dur-view: 180ms;
+  --dur-sheet: 280ms;
+  --dur-focal: 420ms;
+  --dur-trace: 1.2s;
   --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
+  --ease-drawer: cubic-bezier(0.32, 0.72, 0, 1);
   --page: 1240px;
   --column: 26rem;
   --measure: 68ch;
+}
+
+/* Reduced motion keeps what explains a change (fades, colour) and drops what travels:
+   presses, sheets, the rail ball, and the rally replay land in their end state at once. */
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --dur-press: 0ms;
+    --dur-sheet: 0ms;
+    --dur-focal: 0ms;
+    --dur-trace: 0ms;
+  }
 }
